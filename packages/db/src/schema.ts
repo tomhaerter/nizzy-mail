@@ -22,7 +22,7 @@ export const session = createTable('session', {
   updatedAt: timestamp().notNull(),
   ipAddress: text(),
   userAgent: text(),
-  userId: text()
+  userId: uuid()
     .notNull()
     .references(() => user.id),
 });
@@ -31,7 +31,7 @@ export const account = createTable('account', {
   id: uuid().primaryKey().$defaultFn(uuidv7),
   accountId: text().notNull(),
   providerId: text().notNull(),
-  userId: text()
+  userId: uuid()
     .notNull()
     .references(() => user.id),
   accessToken: text(),
@@ -63,7 +63,7 @@ export const earlyAccess = createTable('early_access', {
 
 export const connection = createTable('connection', {
   id: uuid().primaryKey().$defaultFn(uuidv7),
-  userId: text()
+  userId: uuid()
     .notNull()
     .references(() => user.id),
   email: text().notNull().unique(),
@@ -79,7 +79,7 @@ export const connection = createTable('connection', {
 });
 
 export const summary = createTable('summary', {
-  messageId: text().primaryKey(),
+  messageId: text().primaryKey(), // references gmail message id
   content: text().notNull(),
   createdAt: timestamp().notNull(),
   updatedAt: timestamp().notNull(),
@@ -91,7 +91,7 @@ export const summary = createTable('summary', {
 
 export const note = createTable('note', {
   id: uuid().primaryKey().$defaultFn(uuidv7),
-  userId: text()
+  userId: uuid()
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
   threadId: text().notNull(),
